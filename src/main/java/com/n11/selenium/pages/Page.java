@@ -17,7 +17,7 @@ import static org.openqa.selenium.support.PageFactory.initElements;
  */
 public abstract class Page {
 
-    private final Logger logger = Logger.getAnonymousLogger();
+    private final Logger LOGGER = Logger.getAnonymousLogger();
     final WebDriver driver;
 
     Page(WebDriver driver) {
@@ -100,7 +100,7 @@ public abstract class Page {
             wait.until(ExpectedConditions.visibilityOf(element));
             return true;
         } catch (TimeoutException ex) {
-            logger.info("WebElement is not found");
+            LOGGER.info("WebElement is not found");
             return false;
         }
     }
@@ -111,7 +111,7 @@ public abstract class Page {
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
             return true;
         } catch (TimeoutException ex) {
-            logger.info("WebElement is not found");
+            LOGGER.info("WebElement is not found");
             return false;
         }
     }

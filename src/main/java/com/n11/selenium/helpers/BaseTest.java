@@ -29,7 +29,7 @@ public class BaseTest {
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
         try {
 //          ChromeDriverManager.getInstance().setup();
-//          driver = new ChromeDriver();
+//          driver = new ChromeDriver(capabilities);
             driver = new RemoteWebDriver(new URL("http://172.20.0.223:4444/wd/hub"), capabilities);
             driver.manage().window().maximize();
             driver.get(MAIN_URL);

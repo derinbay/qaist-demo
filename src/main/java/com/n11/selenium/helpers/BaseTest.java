@@ -1,12 +1,15 @@
 package com.n11.selenium.helpers;
 
-import io.github.bonigarcia.wdm.ChromeDriverManager;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import static com.n11.selenium.objects.Config.MAIN_URL;
 
@@ -15,23 +18,23 @@ import static com.n11.selenium.objects.Config.MAIN_URL;
  */
 public class BaseTest {
 
-    protected WebDriver driver;
-
-    @Before
-    public void startUp() {
-        ChromeDriverManager.getInstance().setup();
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.get(MAIN_URL);
-    }
-
     @Rule
     public TestRule chain = RuleChain.outerRule(new TestContextInitializer())
             .around(new StopOrCloseFixtures())
             .around(new FailedTestScreenshotTaker());
+    protected WebDriver driver;
 
-//    @After
-//    public void tearDown() {
-//        driver.quit();
-//    }
+    @Before
+    public void startUp() {
+        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+        try {
+//          ChromeDriverManager.getInstance().setup();
+//          driver = new ChromeDriver();
+            driver = new RemoteWebDriver(new URL("http://172.20.0.223:4444/wd/hub"), capabilities);
+            driver.manage().window().maximize();
+            driver.get(MAIN_URL);
+        } catch (MalformedURLException e) {
+            throw new Error();
+        }
+    }
 }
